@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey of Boundary Indication</title>
+
+    <style>
+        body {
+          background-color: Azure;
+        }
+
+        p {
+          font-family: verdana;
+          font-size: 16px;
+        }
+        a {
+          border: 1px solid black;
+          margin-top: 200px;
+          margin-bottom: 100px;
+          margin-right: 20px;
+          margin-left: 20px;
+          background-color: lightblue;
+          font-size: 30px;
+        }
+
+        div.stopwatch {
+          margin-left: 20px;
+          font-size: 18px;
+          left: 60%;
+        }
+
+        div {
+          margin-top: 20px;
+          margin-bottom: 20px;
+          margin-right: 10px;
+          margin-left: 20px;
+          font-size: 15px;
+        }
+
+        button {
+          display:inline-block;
+          font-size:15px;
+          width:9%;height:40px;
+          margin:2%; color:white;
+          font-weight:bolder;
+          text-align: center;
+          outline:none; border:0;
+          border-radius:3px;
+          background-color:FireBrick;
+          box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+          cursor:pointer ;
+          outline:none;
+          transition:0.1s;
+        }
+
+        a.button {
+          display:inline-block;
+          font-size:15px;
+          width:9%;height:40px;
+          margin:1.5%; color:white;
+          font-weight:bolder;
+          text-align: center;
+          outline:none; border:0;
+          border-radius:3px;
+          background-color:teal;
+          box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+          cursor:pointer ;
+          outline:none;
+          transition:0.1s;
+        }
+    </style>
+
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+
+<div>
+<h2>Survey of Boundary Indication</h2>
+<h3>from the Final Project of 2019-Spring GCT731(Music Cognitive Science) made by Halla Kim</h3>
+<h4>How to: Listen to the 6 songs below by clicking the 'Start' button. While hearing each song, please press the
+'Lap' button when you feel it is the boundary between different sections in a song.</h4>
+</div>
+
+
+<!--Song 1-->
+
+<div class="w3-container w3-black">
+    <p>Song 1</p>
+</div>
+
+<audio id="song1">
+    <source src="FluffyClouds_mono.wav" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>
+
+<nav class="controls">
+    <a href="#" class="button" onClick="stopwatch1.start1();">Start</a>
+    <a href="#" class="button" onClick="stopwatch1.lap1();">Lap</a>
+    <a href="#" class="button" onClick="stopwatch1.stop1();">Stop</a>
+    <a href="#" class="button" onClick="stopwatch1.restart1();">Restart</a>
+    <a href="#" class="button" onClick="stopwatch1.clear1();">Clear Laps</a>
+</nav>
+<div class="stopwatch1"></div>
+
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    Name: <input type="text" name="name"><br>
+    Years of Music Education: <input type="text" name="Years of Music Education" size="10">years<br>
+    Boundary Indication of Song 1: <input type="text" name="Boundary Indication" id="lap1" value="0" size="70"><br>
+    <br>
+        <button type="submit" form="gform" value="Submit">Submit</button>
+    </div>
+</form>
+<br><br>
+
+
+
+
+<!--Song 2-->
+
+<div class="w3-container w3-black">
+    <p>Song 2</p>
+</div>
+
+<audio id="song2">
+    <source src="horse.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#" class="button" onClick="stopwatch2.start2();">Start</a>
+    <a href="#" class="button" onClick="stopwatch2.lap2();">Lap</a>
+    <a href="#" class="button" onClick="stopwatch2.stop2();">Stop</a>
+    <a href="#" class="button" onClick="stopwatch2.restart2();">Restart</a>
+    <a href="#" class="button" onClick="stopwatch2.clear2();">Clear Laps</a>
+</nav>
+
+<div class="stopwatch2"></div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    Name: <input type="text" name="name"><br>
+    Years of Music Education: <input type="text" name="Years of Music Education" size="10">years<br>
+    Boundary Indication of Song 2: <input type="text" name="Boundary Indication" id="lap2" value="0" size="70"><br>
+    <br>
+        <button type="submit" form="gform" value="Submit">Submit</button>
+    </div>
+</form>
+
+
+
+<script>
+
+    var song1 = document.getElementById("song1");
+    var song2 = document.getElementById("song2");
+
+    class Stopwatch {
+    constructor(display, results) {
+        this.running = false;
+        this.display = display;
+        this.results = results;
+        this.laps = [];
+        this.reset();
+        this.print(this.times);
+    }
+
+    reset() {
+        this.times = [ 0, 0, 0 ];
+    }
+
+    start1() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song1.play();
+        }
+    }
+
+    start2() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song2.play();
+        }
+    }
+
+    lap1() {
+         let times = this.times;
+         let input = document.getElementById("lap1");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap2() {
+         let times = this.times;
+         let input = document.getElementById("lap2");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    stop1() {
+        this.running = false;
+        this.time = null;
+        song1.pause();
+    }
+
+    stop2() {
+        this.running = false;
+        this.time = null;
+        song2.pause();
+    }
+
+    restart1() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song1.currentTime = 0;
+        song1.play();
+    }
+
+    restart2() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song2.currentTime = 0;
+        song2.play();
+    }
+
+    clear1() {
+        let input = document.getElementById("lap1");
+        input.value = 0;
+        //clearChildren(this.results);
+    }
+
+    clear2() {
+        let input = document.getElementById("lap2");
+        input.value = 0;
+        //clearChildren(this.results);
+    }
+
+    step(timestamp) {
+        if (!this.running) return;
+        this.calculate(timestamp);
+        this.time = timestamp;
+        this.print();
+        requestAnimationFrame(this.step.bind(this));
+    }
+
+    calculate(timestamp) {
+        var diff = timestamp - this.time;
+        // Hundredths of a second are 100 ms
+        this.times[2] += diff / 10;
+        // Seconds are 100 hundredths of a second
+        if (this.times[2] >= 100) {
+            this.times[1] += 1;
+            this.times[2] -= 100;
+        }
+        // Minutes are 60 seconds
+        if (this.times[1] >= 60) {
+            this.times[0] += 1;
+            this.times[1] -= 60;
+        }
+    }
+
+    print() {
+        this.display.innerText = this.format(this.times);
+    }
+
+    format(times) {
+        return `\
+${pad0(times[0], 2)}:\
+${pad0(times[1], 2)}:\
+${pad0(Math.floor(times[2]), 2)}`;
+    }
+}
+
+function pad0(value, count) {
+    var result = value.toString();
+    for (; result.length < count; --count)
+        result = '0' + result;
+    return result;
+}
+
+function clearChildren(node) {
+    while (node.lastChild)
+        node.removeChild(node.lastChild);
+}
+
+let stopwatch1 = new Stopwatch(
+    document.querySelector('.stopwatch1'),
+    document.querySelector('.results'));
+
+let stopwatch2 = new Stopwatch(
+    document.querySelector('.stopwatch2'),
+    document.querySelector('.results'));
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
