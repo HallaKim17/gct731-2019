@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey of Boundary Indication</title>
+
+    <style>
+        body {
+          background-color: Azure;
+        }
+
+        p {
+          font-family: verdana;
+          font-size: 16px;
+        }
+        a {
+          border: 1px solid black;
+          margin-top: 200px;
+          margin-bottom: 100px;
+          margin-right: 20px;
+          margin-left: 20px;
+          background-color: lightblue;
+          font-size: 30px;
+        }
+
+        div.stopwatch {
+          margin-left: 20px;
+          font-size: 18px;
+          left: 60%;
+        }
+
+        div {
+          margin-top: 20px;
+          margin-bottom: 20px;
+          margin-right: 10px;
+          margin-left: 20px;
+          font-size: 16px;
+        }
+
+        button {
+          display:inline-block;
+          font-size:15px;
+          width:9%;height:40px;
+          margin:2%; color:white;
+          font-weight:bolder;
+          text-align: center;
+          outline:none; border:0;
+          border-radius:3px;
+          background-color:FireBrick;
+          box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+          cursor:pointer ;
+          outline:none;
+          transition:0.1s;
+        }
+
+        #button_lap {
+            background-color: #FF8C00;
+        }
+
+        a.button {
+          display:inline-block;
+          font-size:15px;
+          width:9%;height:40px;
+          margin:1.5%; color:white;
+          font-weight:bolder;
+          text-align: center;
+          outline:none; border:0;
+          border-radius:3px;
+          background-color:teal;
+          box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+          cursor:pointer ;
+          outline:none;
+          transition:0.1s;
+        }
+    </style>
+
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+
+<div>
+<h2>음악구조에 대한 인지 설문조사</h2>
+<h5>안녕하세요. 본 설문은 음악 인지과학(GCT731) 수업 프로젝트에서 사람이 음악을 들을 때 어떻게 구조를 파악하는지 알아보기 위한 조사입니다.
+        대략 10분 정도의 시간이 소요되며, 각 음악을 들으면서 <strong>한 파트가 마무리되고 다음 파트가 시작되는 경계 지점</strong>이라고 느끼실 때마다
+    <strong>'기록' 버튼</strong>을 눌러 시간을 기록해주시면 됩니다. 본 설문에는 정답이 없으며, 편안하게 음악을 들으며 느끼시는 대로 응답해주시면 됩니다.
+    각 음악을 듣고 응답 기록을 만드신 후 맨 아래에 제출을 눌러 완료하시면 됩니다. 본 설문은 오직 연구 목적으로만 사용됩니다. 감사합니다. </h5>
+<h5>문의: KAIST 문화기술대학원 석사과정 김한라(kimhalla@kaist.ac.kr)</h5>
+<br><br>
+
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+
+    <div>
+    <p>성별:</p> <input type="radio" name="gender" value="male"> 남성<br> <input type="radio" name="gender" value="female"> 여성<br>
+    <p>출생연도:</p> <input type="text" name="birth year">년<br>
+    <p>소속/전공:</p> <input type="text" name="major"><br>
+    <p>하루에 음악을 듣는 시간이 얼마나 되십니까?</p>
+        <input type="radio" name="time of music listening" value="0-1"> 0~1시간<br>
+        <input type="radio" name="time of music listening" value="1-2"> 1~2시간<br>
+        <input type="radio" name="time of music listening" value="2-3"> 2~3시간<br>
+        <input type="radio" name="time of music listening" value="3-"> 3시간 이상<br>
+    <p>악기 연습이나 음악에 관한 공부를 하루에 몇 시간 동안 했었거나 하고 있습니까?</p>
+        <input type="radio" name="time of music practicing" value="0-1"> 0~1시간<br>
+        <input type="radio" name="time of music practicing" value="1-2"> 1~2시간<br>
+        <input type="radio" name="time of music practicing" value="2-3"> 2~3시간<br>
+        <input type="radio" name="time of music practicing" value="3-"> 3시간 이상<br>
+    <br>
+
+    </div>
+</form>
+
+
+
+<!--Song 1-->
+
+<div class="w3-container w3-black">
+    <p>Song 1</p>
+</div>
+
+<audio id="song1">
+    <source src="song1_poly.wav" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch1.start1();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch1.lap1();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch1.stop1();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch1.restart1();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch1.clear1();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch1"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 1"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 1" id="lap1" value="0" size="30"><br>
+    <br>
+    </div>
+</form>
+<br>
+
+
+
+
+<!--Song 2-->
+
+<div class="w3-container w3-black">
+    <p>Song 2</p>
+</div>
+
+<audio id="song2">
+    <source src="song2_mono.wav" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch2.start2();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch2.lap2();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch2.stop2();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch2.restart2();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch2.clear2();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch2"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 2"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 2" id="lap2" value="0" size="70"><br>
+    <br>
+    </div>
+</form>
+
+
+
+<!--Song 3-->
+
+<div class="w3-container w3-black">
+    <p>Song 3</p>
+</div>
+
+<audio id="song3">
+    <source src="song3_poly.wav" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch3.start3();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch3.lap3();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch3.stop3();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch3.restart3();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch3.clear3();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch3"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 3"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 3" id="lap3" value="0" size="70"><br>
+    <br>
+    </div>
+</form>
+
+
+<!--Song 4-->
+
+<div class="w3-container w3-black">
+    <p>Song 4</p>
+</div>
+
+<audio id="song4">
+    <source src="song4_mono.wav" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch4.start4();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch4.lap4();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch4.stop4();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch4.restart4();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch4.clear4();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch4"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 4"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 4" id="lap4" value="0" size="70"><br>
+    <br>
+    </div>
+</form>
+
+
+<!--Song 5-->
+
+<div class="w3-container w3-black">
+    <p>Song 5</p>
+</div>
+
+<audio id="song5">
+    <source src="song5_poly.wav" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch5.start5();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch5.lap5();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch5.stop5();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch5.restart5();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch5.clear5();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch5"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 5"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 5" id="lap5" value="0" size="70"><br>
+    <br>
+    </div>
+</form>
+
+
+<!--Song 6-->
+
+<div class="w3-container w3-black">
+    <p>Song 6</p>
+</div>
+
+<audio id="song6">
+    <source src="song6_mono.wav" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+
+<nav class="controls">
+    <a href="#a" class="button" onClick="stopwatch6.start6();">시작</a>
+    <a href="#a" class="button" id="button_lap" onClick="stopwatch6.lap6();">기록</a>
+    <a href="#a" class="button" onClick="stopwatch6.stop6();">일시 정지</a>
+    <a href="#a" class="button" onClick="stopwatch6.restart6();">재시작</a>
+    <a href="#a" class="button" onClick="stopwatch6.clear6();">기록 모두 지우기</a>
+</nav>
+
+
+<div>스톱워치: </div>
+<div class="stopwatch6"></div>
+<div>
+    <p>응답 기록:</p> <p id="response of song 6"></p>
+</div>
+
+
+<form id="gform" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxz4qkKrGwFDylh5vtLep9ACrPSW7bO5bJgY9U6WQ/exec">
+<ul class="results"></ul>
+    <div>
+    <input type="text" name="Boundary Indication of Song 6" id="lap6" value="0" size="70"><br>
+    <br>
+        <button type="submit" form="gform" value="Submit">제출</button>
+    </div>
+</form>
+
+
+<script>
+
+    var song1 = document.getElementById("song1");
+    var song2 = document.getElementById("song2");
+    var song3 = document.getElementById("song3");
+    var song4 = document.getElementById("song4");
+    var song5 = document.getElementById("song5");
+    var song6 = document.getElementById("song6");
+
+    class Stopwatch {
+    constructor(display, results) {
+        this.running = false;
+        this.display = display;
+        this.results = results;
+        this.laps = [];
+        this.reset();
+        this.print(this.times);
+    }
+
+    reset() {
+        this.times = [ 0, 0, 0 ];
+    }
+
+    start1() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song1.play();
+        }
+    }
+
+    start2() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song2.play();
+        }
+    }
+
+    start3() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song3.play();
+        }
+    }
+
+    start4() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song4.play();
+        }
+    }
+
+    start5() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song5.play();
+        }
+    }
+
+    start6() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+            song6.play();
+        }
+    }
+
+
+    lap1() {
+         let times = this.times;
+         let input = document.getElementById("lap1");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 1").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap2() {
+         let times = this.times;
+         let input = document.getElementById("lap2");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 2").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap3() {
+         let times = this.times;
+         let input = document.getElementById("lap3");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 3").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap4() {
+         let times = this.times;
+         let input = document.getElementById("lap4");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 4").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap5() {
+         let times = this.times;
+         let input = document.getElementById("lap5");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 5").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+    lap6() {
+         let times = this.times;
+         let input = document.getElementById("lap6");
+         var lapInput = input.value;
+         var lapInputByNow = lapInput.concat(" ; ", this.format(times));
+         input.value = lapInputByNow;
+         document.getElementById("response of song 6").innerHTML = lapInputByNow;
+         this.results.appendChild(input);
+         form.appendChild(input);
+    }
+
+
+    stop1() {
+        this.running = false;
+        this.time = null;
+        song1.pause();
+    }
+
+    stop2() {
+        this.running = false;
+        this.time = null;
+        song2.pause();
+    }
+
+    stop3() {
+        this.running = false;
+        this.time = null;
+        song3.pause();
+    }
+
+    stop4() {
+        this.running = false;
+        this.time = null;
+        song4.pause();
+    }
+
+    stop5() {
+        this.running = false;
+        this.time = null;
+        song5.pause();
+    }
+
+    stop6() {
+        this.running = false;
+        this.time = null;
+        song6.pause();
+    }
+
+
+    restart1() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song1.currentTime = 0;
+        song1.play();
+    }
+
+    restart2() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song2.currentTime = 0;
+        song2.play();
+    }
+
+    restart3() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song3.currentTime = 0;
+        song3.play();
+    }
+
+    restart4() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song4.currentTime = 0;
+        song4.play();
+    }
+
+    restart5() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song5.currentTime = 0;
+        song5.play();
+    }
+
+    restart6() {
+        if (!this.time) this.time = performance.now();
+        if (!this.running) {
+            this.running = true;
+            requestAnimationFrame(this.step.bind(this));
+        }
+        this.reset();
+        song6.currentTime = 0;
+        song6.play();
+    }
+
+    clear1() {
+        let input = document.getElementById("lap1");
+        input.value = 0;
+        document.getElementById("response of song 1").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+    clear2() {
+        let input = document.getElementById("lap2");
+        input.value = 0;
+        document.getElementById("response of song 2").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+    clear3() {
+        let input = document.getElementById("lap3");
+        input.value = 0;
+        document.getElementById("response of song 3").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+    clear4() {
+        let input = document.getElementById("lap4");
+        input.value = 0;
+        document.getElementById("response of song 4").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+    clear5() {
+        let input = document.getElementById("lap5");
+        input.value = 0;
+        document.getElementById("response of song 5").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+    clear6() {
+        let input = document.getElementById("lap6");
+        input.value = 0;
+        document.getElementById("response of song 6").innerHTML = " ";
+        //clearChildren(this.results);
+    }
+
+
+    step(timestamp) {
+        if (!this.running) return;
+        this.calculate(timestamp);
+        this.time = timestamp;
+        this.print();
+        requestAnimationFrame(this.step.bind(this));
+    }
+
+    calculate(timestamp) {
+        var diff = timestamp - this.time;
+        // Hundredths of a second are 100 ms
+        this.times[2] += diff / 10;
+        // Seconds are 100 hundredths of a second
+        if (this.times[2] >= 100) {
+            this.times[1] += 1;
+            this.times[2] -= 100;
+        }
+        // Minutes are 60 seconds
+        if (this.times[1] >= 60) {
+            this.times[0] += 1;
+            this.times[1] -= 60;
+        }
+    }
+
+    print() {
+        this.display.innerText = this.format(this.times);
+    }
+
+    format(times) {
+        return `\
+${pad0(times[0], 2)}:\
+${pad0(times[1], 2)}:\
+${pad0(Math.floor(times[2]), 2)}`;
+    }
+}
+
+function pad0(value, count) {
+    var result = value.toString();
+    for (; result.length < count; --count)
+        result = '0' + result;
+    return result;
+}
+
+function clearChildren(node) {
+    while (node.lastChild)
+        node.removeChild(node.lastChild);
+}
+
+let stopwatch1 = new Stopwatch(
+    document.querySelector('.stopwatch1'),
+    document.querySelector('.results'));
+
+let stopwatch2 = new Stopwatch(
+    document.querySelector('.stopwatch2'),
+    document.querySelector('.results'));
+
+let stopwatch3 = new Stopwatch(
+    document.querySelector('.stopwatch3'),
+    document.querySelector('.results'));
+
+let stopwatch4 = new Stopwatch(
+    document.querySelector('.stopwatch4'),
+    document.querySelector('.results'));
+
+let stopwatch5 = new Stopwatch(
+    document.querySelector('.stopwatch5'),
+    document.querySelector('.results'));
+
+let stopwatch6 = new Stopwatch(
+    document.querySelector('.stopwatch6'),
+    document.querySelector('.results'));
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
